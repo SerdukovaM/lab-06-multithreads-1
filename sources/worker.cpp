@@ -1,6 +1,4 @@
-//
-// Created by mikhail on 1/8/21.
-//
+// Copyright 2020 Yulia Timoshenko <timoshenkojulie01@gmail.com>
 
 #ifndef TEMPLATE_WORKER_CPP
 #define TEMPLATE_WORKER_CPP
