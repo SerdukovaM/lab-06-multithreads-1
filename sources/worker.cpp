@@ -10,6 +10,7 @@
 #include <boost/log/core.hpp>
 #include <boost/log/sinks/text_file_backend.hpp>
 #include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/console.hpp>
 #include <boost/log/expressions.hpp>
 
 
@@ -24,14 +25,17 @@ void handle(int s) {
 
 int main(int argc, char* argv[]) {
   if ((argc!=2) and (argc!=3)) {
-    throw std::invalid_argument{"./worker <path_to_json> <number of threads>"};
+    std::cout << "worker <json results path> <number of threads>";
+    return 0;
   }
-  boost::shared_ptr<boost::log::sinks::text_file_backend> be = boost::make_shared<boost::log::sinks::text_file_backend>(
+  boost::log::add_file_log(
         boost::log::keywords::file_name = "async_worker_%5N.log",
         boost::log::keywords::rotation_size = 10 * 1024 * 1024,
-        boost::log::keywords::format ="[%TimeStamp%]: %Message%"
+        boost::log::keywords::format = "[%TimeStamp%][%Severity%]: %Message%"
       );
-  boost::log::core::get()->add_sink(boost::shared_ptr<boost::log::sinks::synchronous_sink<boost::log::sinks::text_file_backend>>(new boost::log::sinks::synchronous_sink<boost::log::sinks::text_file_backend>(be)));
+  boost::log::add_console_log(std::cout,
+        boost::log::keywords::format = "[%TimeStamp%][%Severity%]: %Message%"
+      );
   size_t n_zeros = 4;
   size_t n_threads = std::thread::hardware_concurrency();
   std::string json_path = argv[1];
