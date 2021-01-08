@@ -38,18 +38,19 @@ hunter_add_package(nlohmann_json)
 find_package(nlohmann_json CONFIG REQUIRED)
 
 # TODO: change template word to project name and delete this comment
-add_library(template STATIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
 
-        sources/a_sha_worker.cpp sources/a_sha_worker.hpp)
 add_executable(tests
         # TODO: enum your files and delete this comment
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
         )
 
+add_executable(worker
+        # TODO: enum your files and delete this comment
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/worker.cpp
+        )
+
 # TODO: change template word to project name and delete this comment
-target_include_directories(template
+target_include_directories(worker
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/third-party/PicoSHA2
         )
@@ -60,7 +61,7 @@ target_include_directories(tests
 # TODO: change template word to project name and delete this comment
 
 target_link_libraries(
-        template
+        worker
         Boost::log_setup
         Boost::log
         Boost::thread
