@@ -22,7 +22,7 @@ a_sha_worker::a_sha_worker(size_t n_thr, size_t N, bool autorun) {
   if (autorun) start();
 }
 void a_sha_worker::start() {
-  for (size_t i = 0; i < n_threads; i++) {
+  for (size_t i = 0; i < n_threads; ++i) {
     pool.emplace_back(&a_sha_worker::perform_checks, this);
   }
 }
@@ -34,7 +34,7 @@ void a_sha_worker::perform_checks() {
     BOOST_LOG_TRIVIAL(trace) << " Thread: " << std::this_thread::get_id()
                              << " Data: " << s << " Hash: " << hash;
     bool missed = false;
-    for (size_t i = 0; i < n_zeros; i++) {
+    for (size_t i = 0; i < n_zeros; ++i) {
       if (hash.c_str()[hash.size() - i - 1] != '0') {
         missed = true;
         break;
